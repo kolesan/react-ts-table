@@ -5,7 +5,7 @@ const mockData = require('../../resources/MOCK_DATA');
 import { copy, sorter, order, filter } from './utils/array-utils';
 import { pipe, tap } from './utils/functional-utils';
 import { property } from './utils/obj-utils';
-import { includes } from './utils/string-utils';
+import { includes, stringOrder } from './utils/string-utils';
 import { config } from './utils/config-loader';
 
 const { port } = config.server;
@@ -30,6 +30,14 @@ if (config.production) {
   app.use((req, res) => res.sendFile(`${path.resolve(bundleDir)}/index.html`));
 }
 
+interface Animal {
+  name: string,
+  growth: number,
+  wiki: string,
+  carnivore: boolean,
+  height: number,
+  origin: string
+}
 
 app.get('/animals', (req, res) => {
   const start = Number(req.query.start || 0);
@@ -37,18 +45,21 @@ app.get('/animals', (req, res) => {
   const sortBy = req.query.sortBy;
   const filterBy = req.query.filterBy;
   const filterValue = req.query.filterValue;
-  const sortDescending = Boolean(req.query.sortDesc || true);
+  const sortDescending = req.query.sortDesc !== undefined;
 
   console.log("Client requested animals: ");
-  console.log({start, count, sortBy, sortDescending, filterBy, filterValue, query: req.query});
+  let propType = typeof mockData[0][sortBy];
+  console.log({start, count, sortBy, sortDescending, filterBy, filterValue, propType, query: req.query});
 
-  let sortByProperty = sorter(property(sortBy), order(!sortDescending));
+  let sortByStringPorperty = sorter(property(sortBy), stringOrder(sortDescending));
+  let sortByNumberProperty = sorter(property(sortBy), order(sortDescending));
+  let sortByProperty = propType == "string" ? sortByStringPorperty : sortByNumberProperty;
   let filterByProperty = filter(property(filterBy), includes(filterValue));
 
   let data = pipe(mockData,
     copy,
     // tap(arr => console.log(arr.slice(0, 10))),
-    arr => sortBy ? arr.sort(sortByProperty) : arr,
+    arr => sortBy && propType !== undefined ? arr.sort(sortByProperty) : arr,
     // tap(arr => console.log(arr.slice(0, 10))),
     (arr: Array<Object>) => (filterBy && filterValue) ? arr.filter(filterByProperty) : arr,
     // tap(arr => console.log(arr.slice(0, 10))),

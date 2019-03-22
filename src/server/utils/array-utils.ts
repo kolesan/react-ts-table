@@ -8,15 +8,15 @@ export function sorter(val: Function, compare: Function) {
   }
 }
 
-export function order(ascending: boolean) {
-  return ascending ? asc : desc;
+export function order(descending: boolean) {
+  return descending ? desc : asc;
 }
 
-function asc(a, b) {
-  return a < b;
-}
 function desc(a, b) {
-  return a > b;
+  return b - a;
+}
+function asc(a, b) {
+  return a - b;
 }
 
 export function filter(valueProvider: Function, predicate: Function) {
