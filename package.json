@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "description": "template project with webpack dev server set up",
-  "main": "./src/index.js",
+  "main": "./src/index.ts",
   "scripts": {
     "build": "webpack --config webpack.prod.js",
     "dev": "webpack-dev-server --open --config webpack.dev.js",
@@ -32,6 +32,8 @@
     "jest": "^23.6.0",
     "jest-summarizing-reporter": "^1.1.1",
     "style-loader": "^0.23.0",
+    "ts-loader": "^5.3.3",
+    "typescript": "^3.3.4000",
     "webpack": "^4.20.2",
     "webpack-cli": "^3.1.2",
     "webpack-dev-server": "^3.1.9",
