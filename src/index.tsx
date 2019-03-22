@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import newTable from './components/table';
 
 interface Person {
   firstName: string;
@@ -18,5 +19,6 @@ function greeter(person: Person) {
 }
 
 let user = new Student("Jane", "M.", "User");
+let table = newTable();
 
-ReactDOM.render(greeter(user), document.body);
+ReactDOM.render(table, document.getElementById("root"));
