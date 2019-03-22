@@ -1,0 +1,48 @@
+{
+  "name": "template-webpack-dev",
+  "version": "1.0.0",
+  "private": true,
+  "description": "template project with webpack dev server set up",
+  "main": "./src/index.js",
+  "scripts": {
+    "build": "webpack --config webpack.prod.js",
+    "dev": "webpack-dev-server --open --config webpack.dev.js",
+    "test": "jest",
+    "testWatch": "jest --watch",
+    "coverage": "jest --reporters=\"./test/JestNoOutputReporter.js\" --coverage",
+    "eslint": "eslint src test"
+  },
+  "author": "kolesan90@gmail.com",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/core": "^7.1.2",
+    "@babel/preset-env": "^7.1.0",
+    "babel-core": "^7.0.0-bridge.0",
+    "babel-jest": "^23.6.0",
+    "css-loader": "^1.0.0",
+    "eslint": "^5.15.3",
+    "eslint-config-recommended": "^4.0.0",
+    "eslint-config-standard": "^12.0.0",
+    "eslint-loader": "^2.1.2",
+    "eslint-plugin-import": "^2.16.0",
+    "eslint-plugin-node": "^8.0.1",
+    "eslint-plugin-promise": "^4.0.1",
+    "eslint-plugin-standard": "^4.0.0",
+    "html-webpack-plugin": "^3.2.0",
+    "jest": "^23.6.0",
+    "jest-summarizing-reporter": "^1.1.1",
+    "style-loader": "^0.23.0",
+    "webpack": "^4.20.2",
+    "webpack-cli": "^3.1.2",
+    "webpack-dev-server": "^3.1.9",
+    "webpack-merge": "^4.1.4"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kolesan/template-webpack-dev.git"
+  },
+  "bugs": {
+    "url": "https://github.com/kolesan/template-webpack-dev/issues"
+  },
+  "homepage": "https://github.com/kolesan/template-webpack-dev#readme"
+}
