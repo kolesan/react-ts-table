@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 
 interface Person {
   firstName: string;
@@ -13,10 +14,9 @@ class Student {
 }
 
 function greeter(person: Person) {
-  return `Hello, ${person.lastName} ${person.firstName}`;
+  return <h1>Hello, {person.lastName} {person.firstName}</h1>;
 }
 
 let user = new Student("Jane", "M.", "User");
 
-document.body.innerHTML = greeter(user);
-console.log(<h1>Omfg</h1>);
+ReactDOM.render(greeter(user), document.body);
