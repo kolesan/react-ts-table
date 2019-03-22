@@ -1,3 +1,5 @@
+import React from 'react';
+
 interface Person {
   firstName: string;
   lastName: string;
@@ -6,8 +8,8 @@ interface Person {
 class Student {
   fullName: string;
   constructor(public firstName: string, public middleInitial: string, public lastName: string) {
-  this.fullName = firstName + " " + middleInitial + " " + lastName;
-}
+    this.fullName = firstName + " " + middleInitial + " " + lastName;
+  }
 }
 
 function greeter(person: Person) {
@@ -17,3 +19,4 @@ function greeter(person: Person) {
 let user = new Student("Jane", "M.", "User");
 
 document.body.innerHTML = greeter(user);
+console.log(<h1>Omfg</h1>);
