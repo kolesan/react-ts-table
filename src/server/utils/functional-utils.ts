@@ -23,3 +23,10 @@ export function tap(fn) {
     return args[0];
   }
 }
+
+export function trace(fn = v => v) {
+  return function(v) {
+    console.log(fn(v));
+    return v;
+  }
+}
