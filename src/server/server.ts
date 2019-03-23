@@ -1,6 +1,7 @@
 const path = require('path');
 const express = require('express');
 
+import { log } from "./utils/logging";
 import { config } from './utils/config-loader';
 import { AnimalRepository } from "./repositories/AnimalRepository";
 import { Animals } from "./services/Animals";
@@ -9,10 +10,16 @@ import { AnimalRouter } from "./routers/AnimalRouter";
 const { port } = config.server;
 const { bundleDir } = config;
 
-console.log("Configuration: ", config);
+log("Loading configuration: ", config);
 
 let app = express();
-let server = app.listen(port, () => console.log(`Express server listening on port ${port}!`));
+let server = app.listen(port, () => log(`Express server listening on port ${port}!`));
+
+if (config.production) {
+  log("Serving static content from: ", bundleDir);
+  app.use(express.static(bundleDir));
+  app.use((req, res) => res.sendFile(`${path.resolve(bundleDir)}/index.html`));
+}
 
 if (!config.production) {
   app.use(function (req, res, next) {
@@ -20,12 +27,6 @@ if (!config.production) {
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next();
   });
-}
-
-if (config.production) {
-  console.log("Serving static content from: ", bundleDir);
-  app.use(express.static(bundleDir));
-  app.use((req, res) => res.sendFile(`${path.resolve(bundleDir)}/index.html`));
 }
 
 let animalRepo = new AnimalRepository();

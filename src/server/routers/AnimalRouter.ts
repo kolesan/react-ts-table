@@ -1,6 +1,7 @@
 import { Router } from "./Router";
 import { FindOptions } from "../repositories/FindOptions";
 import { Animals } from "../services/Animals";
+import { log } from "../utils/logging";
 
 export class AnimalRouter implements Router {
   service: Animals;
@@ -24,8 +25,8 @@ export class AnimalRouter implements Router {
         take: { start, count }
       };
 
-      console.log("Client requested animals: ");
-      console.log(options);
+      log("Client requested animals: ");
+      log(options);
 
       res.send(this.service.findAll(options));
       // setTimeout(
