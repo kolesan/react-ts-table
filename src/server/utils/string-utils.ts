@@ -4,14 +4,14 @@ export function includes(val: string) {
   }
 }
 
-export function stringOrder(descending) {
-  return descending ? desc : asc;
+export function stringComparator(descending) {
+  return descending ? stringDesc : stringAsc;
 }
 
-export function desc(val: string, s: string) {
+export function stringDesc(val: string, s: string) {
   return s.localeCompare(val);
 }
 
-export function asc(val: string, s: string) {
+export function stringAsc(val: string, s: string) {
   return val.localeCompare(s);
 }

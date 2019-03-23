@@ -2,13 +2,13 @@ export function copy<T>(arr: Array<T>): Array<T> {
   return [...arr];
 }
 
-export function sorter(val: Function, compare: Function) {
+export function sorter(valueExtractor: Function, comparator: Function) {
   return function(a, b) {
-    return compare(val(a), val(b))
+    return comparator(valueExtractor(a), valueExtractor(b))
   }
 }
 
-export function order(descending: boolean) {
+export function numberComparator(descending: boolean) {
   return descending ? desc : asc;
 }
 
