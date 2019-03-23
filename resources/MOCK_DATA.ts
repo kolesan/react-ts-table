@@ -1,4 +1,4 @@
-import {Animal} from "../src/server/Animal";
+import {Animal} from "../src/server/model/Animal";
 
 export const data: Array<Animal> = [
 {"name":"Phalarope, northern","growth":-125,"wiki":"http://zdnet.com/in/sapien/iaculis.js","carnivore":false,"height":34.652498,"origin":"Ukraine"},
