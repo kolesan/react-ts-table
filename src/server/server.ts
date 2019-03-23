@@ -6,6 +6,7 @@ import { config } from './utils/config-loader';
 import { AnimalRepository } from "./repositories/AnimalRepository";
 import { Animals } from "./services/Animals";
 import { AnimalRouter } from "./routers/AnimalRouter";
+import { parameterValidationErrorHandler, validationErrorHandler } from "./middleware/error-handlers";
 
 const { port } = config.server;
 const { bundleDir } = config;
@@ -34,3 +35,6 @@ let animals = new Animals(animalRepo);
 let animalRouter = new AnimalRouter(animals);
 
 animalRouter.applyRoutes(app);
+
+app.use(parameterValidationErrorHandler);
+app.use(validationErrorHandler);

@@ -1,11 +1,14 @@
 import { Repository } from "./Repository";
 import { data } from '../../../resources/MOCK_DATA';
-import { Animal, PROPERTY_TYPES } from "../model/Animal";
+import { Animal, AnimalProperties } from "../model/Animal";
 import { property } from "../utils/obj-utils";
 import { copy, filter, numberComparator, sorter } from "../utils/array-utils";
 import { includes, stringComparator } from "../utils/string-utils";
 import { FindOptions } from "./FindOptions";
 import { pipe } from "../utils/functional-utils";
+import { SortOptions } from "./SortOptions";
+import { TakeOptions } from "./TakeOptions";
+import { FilterOptions } from "./FilterOptions";
 
 
 export class AnimalRepository implements Repository<Animal> {
@@ -23,7 +26,7 @@ function arrayFilter(options: FilterOptions) {
   const { field, value } = options;
   return function(arr) {
     if (field && value) {
-      const predicate = resolveFilterPredicate(PROPERTY_TYPES.get(field));
+      const predicate = resolveFilterPredicate(AnimalProperties.get(field).type);
       const filterByProperty = filter(property(field), predicate(value));
       return arr.filter(filterByProperty);
     }
@@ -46,7 +49,7 @@ function arraySorter(options: SortOptions) {
   let { field, descending } = options;
   return function(arr) {
     if (field) {
-      const comparator = resolveComparator(PROPERTY_TYPES.get(field), descending);
+      const comparator = resolveComparator(AnimalProperties.get(field).type, descending);
       const sortByProperty = sorter(property(field), comparator);
       return copy(arr).sort(sortByProperty);
     }

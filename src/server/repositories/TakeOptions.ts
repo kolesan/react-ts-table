@@ -1,4 +1,4 @@
-interface TakeOptions {
+export interface TakeOptions {
   readonly start: number,
   readonly count: number
 }
