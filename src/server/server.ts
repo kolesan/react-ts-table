@@ -1,12 +1,14 @@
+import {number} from "prop-types";
 const path = require('path');
 const express = require('express');
-const mockData = require('../../resources/MOCK_DATA');
 
-import { copy, sorter, order, filter } from './utils/array-utils';
-import { pipe, tap } from './utils/functional-utils';
+import { data } from '../../resources/MOCK_DATA';
+import { copy, sorter, numberComparator, filter } from './utils/array-utils';
+import {pipe, tap, trace} from './utils/functional-utils';
 import { property } from './utils/obj-utils';
-import { includes, stringOrder } from './utils/string-utils';
+import { includes, stringComparator } from './utils/string-utils';
 import { config } from './utils/config-loader';
+import { PROPERTY_TYPES } from "./Animal";
 
 const { port } = config.server;
 const { bundleDir } = config;
@@ -30,14 +32,6 @@ if (config.production) {
   app.use((req, res) => res.sendFile(`${path.resolve(bundleDir)}/index.html`));
 }
 
-interface Animal {
-  name: string,
-  growth: number,
-  wiki: string,
-  carnivore: boolean,
-  height: number,
-  origin: string
-}
 
 app.get('/animals', (req, res) => {
   const start = Number(req.query.start || 0);
@@ -48,27 +42,67 @@ app.get('/animals', (req, res) => {
   const sortDescending = req.query.sortDesc !== undefined;
 
   console.log("Client requested animals: ");
-  let propType = typeof mockData[0][sortBy];
-  console.log({start, count, sortBy, sortDescending, filterBy, filterValue, propType, query: req.query});
+  console.log({
+    start, count, sortBy, sortDescending, filterBy,
+    filterValue, query: req.query
+  });
 
-  let sortByStringPorperty = sorter(property(sortBy), stringOrder(sortDescending));
-  let sortByNumberProperty = sorter(property(sortBy), order(sortDescending));
-  let sortByProperty = propType == "string" ? sortByStringPorperty : sortByNumberProperty;
-  let filterByProperty = filter(property(filterBy), includes(filterValue));
-
-  let data = pipe(mockData,
-    copy,
-    // tap(arr => console.log(arr.slice(0, 10))),
-    arr => sortBy && propType !== undefined ? arr.sort(sortByProperty) : arr,
-    // tap(arr => console.log(arr.slice(0, 10))),
-    (arr: Array<Object>) => (filterBy && filterValue) ? arr.filter(filterByProperty) : arr,
-    // tap(arr => console.log(arr.slice(0, 10))),
+  let responseData = pipe(data,
+    // trace(),//(arr => arr.slice(0, 10)),
+    arrayFilter(filterBy, filterValue),
+    // trace(),//(arr => arr.slice(0, 10)),
+    arraySorter(sortBy, sortDescending),
+    // trace(),//(arr => arr.slice(0, 10)),
     arr => arr.slice(start, start + count),
-    // tap(arr => console.log(arr.slice(0, 10)))
+    // trace(),//(arr => arr.slice(0, 10)),
   );
 
-  setTimeout(
-    () => res.send(data),
-    Math.random() * 150
-  );
+  res.send(responseData);
+  // setTimeout(
+  //   () => res.send(data),
+  //   Math.random() * 150
+  // );
 });
+
+function arrayFilter(filterBy: string, filterValue: string) {
+  return function(arr) {
+    if (filterBy && filterValue) {
+      const predicate = resolveFilterPredicate(PROPERTY_TYPES.get(filterBy));
+      const filterByProperty = filter(property(filterBy), predicate(filterValue));
+      return arr.filter(filterByProperty);
+    }
+    return arr;
+  };
+}
+
+function resolveFilterPredicate(type: string) {
+  if (type === "number") {
+    return a => b => a === b;
+  } else if (type === "string") {
+    return includes
+  } else {
+    throw Error(`Unknown type '${type}' during filter predicate resolution`);
+  }
+}
+
+
+function arraySorter(sortBy: string, sortDescending: boolean) {
+  return function(arr) {
+    if (sortBy) {
+      const comparator = resolveComparator(PROPERTY_TYPES.get(sortBy), sortDescending);
+      const sortByProperty = sorter(property(sortBy), comparator);
+      return copy(arr).sort(sortByProperty);
+    }
+    return arr;
+  }
+}
+
+function resolveComparator(type: string, sortDescending: boolean) {
+  if (type === "number") {
+    return numberComparator(sortDescending)
+  } else if (type === "string") {
+    return stringComparator(sortDescending)
+  } else {
+    throw Error(`Unknown type '${type}' during comparator resolution`);
+  }
+}
