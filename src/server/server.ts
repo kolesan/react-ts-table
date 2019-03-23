@@ -2,9 +2,9 @@ const path = require('path');
 const express = require('express');
 
 import { config } from './utils/config-loader';
-import { FindOptions } from "./repositories/FindOptions";
 import { AnimalRepository } from "./repositories/AnimalRepository";
 import { Animals } from "./services/Animals";
+import { AnimalRouter } from "./routers/AnimalRouter";
 
 const { port } = config.server;
 const { bundleDir } = config;
@@ -30,26 +30,6 @@ if (config.production) {
 
 let animalRepo = new AnimalRepository();
 let animals = new Animals(animalRepo);
+let animalRouter = new AnimalRouter(animals);
 
-app.get('/animals', (req, res) => {
-  const start = Number(req.query.start || 0);
-  const count = Number(req.query.count || 10);
-  const sortBy = req.query.sortBy;
-  const filterBy = req.query.filterBy;
-  const filterValue = req.query.filterValue;
-  const sortDescending = req.query.sortDesc !== undefined;
-
-  console.log("Client requested animals: ");
-
-  let options: FindOptions = {
-    filter: { field: filterBy, value: filterValue },
-    sort: { field: sortBy, descending: sortDescending},
-    take: { start, count }
-  };
-  console.log(options);
-  res.send(animals.findAll(options));
-  // setTimeout(
-  //   () => res.send(data),
-  //   Math.random() * 150
-  // );
-});
+animalRouter.applyRoutes(app);
