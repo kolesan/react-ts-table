@@ -31,7 +31,12 @@ export class AnimalRouter implements Router {
       log("Client requested animals: ");
       log(options);
 
-      res.send(this.service.findAll(options));
+      let foundAnimals = this.service.findAll(options);
+
+      log(`Responding with [${foundAnimals.length}] animals`);
+      log(foundAnimals.map(it=>it.name));
+
+      res.send(foundAnimals);
       // setTimeout(
       //   () => res.send(data),
       //   Math.random() * 150
