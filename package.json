@@ -7,7 +7,7 @@
   "scripts": {
     "start": "node src/server/server.js prod",
     "clientDev": "webpack-dev-server --host 0.0.0.0 --config webpack.dev.js",
-    "serverDev": "tsnd src/server/server.ts dev --transpileOnly",
+    "serverDev": "tsnd --project src/server/tsconfig.json src/server/server.ts dev --transpileOnly",
     "build": "webpack --config webpack.prod.js",
     "test": "jest",
     "testWatch": "jest --watch",
