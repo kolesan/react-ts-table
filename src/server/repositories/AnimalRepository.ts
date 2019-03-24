@@ -10,7 +10,6 @@ import { SortOptions } from "./SortOptions";
 import { TakeOptions } from "./TakeOptions";
 import { FilterOptions } from "./FilterOptions";
 
-
 export class AnimalRepository implements Repository<Animal> {
   findAll(options: FindOptions): Animal[] {
     return pipe(data,
