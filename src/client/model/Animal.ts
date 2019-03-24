@@ -1,4 +1,4 @@
-export interface Animal {
+interface Animal {
   id: number,
   name: string,
   growth: number,
@@ -7,3 +7,5 @@ export interface Animal {
   height: number,
   origin: string
 }
+
+export default Animal;
