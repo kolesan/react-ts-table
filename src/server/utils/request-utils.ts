@@ -21,7 +21,7 @@ export function toNumber(param: string, name: string, defaultVal: number): numbe
   const number = Number(param);
   if (Number.isNaN(number)) {
     throw new ParameterValidationError(
-      `query param '${name}' can has to be a number. Was: ${param}`,
+      `query param '${name}' has to be a number. Was: ${param}`,
       name,
       param
     );
