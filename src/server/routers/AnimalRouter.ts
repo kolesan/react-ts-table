@@ -33,13 +33,12 @@ export class AnimalRouter implements Router {
 
       let foundAnimals = this.service.findAll(options);
 
-      log(`Responding with [${foundAnimals.length}] animals`);
-      log(foundAnimals.map(it=>it.name));
+      log(`Found [${foundAnimals.animals.length}] animals out of [${foundAnimals.total}]`);
 
       res.send(foundAnimals);
       // setTimeout(
-      //   () => res.send(data),
-      //   Math.random() * 150
+      //   () => res.send(foundAnimals),
+      //   Math.random() * 1500
       // );
     });
   }

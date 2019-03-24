@@ -1,6 +1,5 @@
-const path = require('path');
-const express = require('express');
-
+import * as path from 'path';
+import * as express from 'express';
 import { log } from "./utils/logging";
 import { config } from './utils/config-loader';
 import { AnimalRepository } from "./repositories/AnimalRepository";

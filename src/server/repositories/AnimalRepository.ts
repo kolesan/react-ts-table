@@ -1,4 +1,4 @@
-import { Repository } from "./Repository";
+import { Repository, FindAllResult } from "./Repository";
 import { data } from '../../../resources/MOCK_DATA';
 import { Animal, AnimalProperties } from "../model/Animal";
 import { property } from "../utils/obj-utils";
@@ -11,15 +11,19 @@ import { TakeOptions } from "./TakeOptions";
 import { FilterOptions } from "./FilterOptions";
 
 export class AnimalRepository implements Repository<Animal> {
-  findAll(options: FindOptions): Animal[] {
-    return pipe(data,
+  findAll(options: FindOptions): FindAllResult<Animal> {
+    let animals = pipe(data,
       arrayFilter(options.filter),
       arraySorter(options.sort),
       arraySlicer(options.take)
     );
+
+    return {
+      total: data.length,
+      items: animals
+    }
   }
 }
-
 
 function arrayFilter(options: FilterOptions) {
   const { field, value } = options;

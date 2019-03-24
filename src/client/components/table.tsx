@@ -23,7 +23,7 @@ export default class AnimalTable extends React.Component<AnimalTableProps, Anima
   componentDidMount() {
     axios.get("http://localhost:3000/animals")
       .then(resp => {
-        this.setState({animalData: resp.data});
+        this.setState({animalData: resp.data.animals});
       });
   }
 
