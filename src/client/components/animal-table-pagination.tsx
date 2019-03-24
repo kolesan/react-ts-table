@@ -21,8 +21,6 @@ export default class AnimalTablePagination extends React.Component<AnimalTablePa
     super(props);
   }
 
-
-
   pageChange(event, page) {
     this.setState({page});
     this.props.onPageChange(page, this.state.rowsPerPage);
