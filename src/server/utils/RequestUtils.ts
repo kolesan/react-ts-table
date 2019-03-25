@@ -1,4 +1,4 @@
-import { isPositiveFinite } from "./math-utils";
+import { isPositiveFinite } from "./MathUtils";
 import { ParameterValidationError } from "../errors/ParameterValidationError";
 
 export function positiveFiniteNumber(param: string, name: string, defaultVal: number): number {

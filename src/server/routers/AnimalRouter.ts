@@ -1,8 +1,8 @@
 import { Router } from "./Router";
 import { FindOptions } from "../repositories/FindOptions";
 import { Animals } from "../services/Animals";
-import { log } from "../utils/logging";
-import { positiveFiniteNumber } from "../utils/request-utils";
+import { log } from "../utils/Logging";
+import { positiveFiniteNumber } from "../utils/RequestUtils";
 import { AnimalProperties } from "../model/Animal";
 import { ParameterValidationError } from "../errors/ParameterValidationError";
 

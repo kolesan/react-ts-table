@@ -1,4 +1,4 @@
-const { property } = require('../obj-utils');
+const { property } = require('../ObjUtils');
 
 test(`'property(s)' returns a function that resolves property 's' from provided object`, () => {
   let obj = {

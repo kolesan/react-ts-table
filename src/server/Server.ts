@@ -1,11 +1,11 @@
 import * as path from 'path';
 import * as express from 'express';
-import { log } from "./utils/logging";
-import { config } from './utils/config-loader';
+import { log } from "./utils/Logging";
+import { config } from './utils/ConfigLoader';
 import { AnimalRepository } from "./repositories/AnimalRepository";
 import { Animals } from "./services/Animals";
 import { AnimalRouter } from "./routers/AnimalRouter";
-import { parameterValidationErrorHandler, validationErrorHandler } from "./middleware/error-handlers";
+import { parameterValidationErrorHandler, validationErrorHandler } from "./middleware/ErrorHandlers";
 
 const { port } = config.server;
 const { bundleDir } = config;

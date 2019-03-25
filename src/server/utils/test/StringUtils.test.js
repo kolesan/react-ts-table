@@ -1,4 +1,4 @@
-const { includes } = require('../string-utils');
+const { includes } = require('../StringUtils');
 
 test(`includes(s) returns a function that accepts another string and checks if the second one contains the first`, () => {
   expect(includes("abc")("abcde")).toBe(true);

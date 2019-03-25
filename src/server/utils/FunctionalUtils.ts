@@ -1,4 +1,4 @@
-import { log } from "./logging";
+import { log } from "./Logging";
 export function pipe(startingValue, ...functions) {
   return functions.reduce((v, fn) => fn(v), startingValue);
 }

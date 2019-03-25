@@ -1,11 +1,11 @@
 import { Repository, FindAllResult } from "./Repository";
 import { data } from '../../../resources/MOCK_DATA';
 import { Animal, AnimalProperties } from "../model/Animal";
-import { property } from "../utils/obj-utils";
-import { copy, filter, numberComparator, sorter } from "../utils/array-utils";
-import { includes, stringComparator } from "../utils/string-utils";
+import { property } from "../utils/ObjUtils";
+import { copy, filter, numberComparator, sorter } from "../utils/ArrayUtils";
+import { includes, stringComparator } from "../utils/StringUtils";
 import { FindOptions } from "./FindOptions";
-import { pipe } from "../utils/functional-utils";
+import { pipe } from "../utils/FunctionalUtils";
 import { SortOptions } from "./SortOptions";
 import { TakeOptions } from "./TakeOptions";
 import { FilterOptions } from "./FilterOptions";

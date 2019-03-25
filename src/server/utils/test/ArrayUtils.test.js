@@ -1,4 +1,4 @@
-const { filter } = require('../array-utils');
+const { filter } = require('../ArrayUtils');
 
 test(`'filter' constructs filter callback using two other functions (value provider and predicate)(string)`, () => {
   let arr = [
