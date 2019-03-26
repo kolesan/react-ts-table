@@ -21,20 +21,39 @@ interface AnimalTableProps {
 interface AnimalTableState {}
 
 export default class AnimalTable extends React.Component<AnimalTableProps, AnimalTableState> {
-  state = {
-    sorting: {
-      row: "name",
-      direction: "desc"
-    }
-  };
 
   componentDidMount() {
     this.props.fetchAnimals(this.props.tableViewState);
   }
 
-  sort(event) {
-    log("Sorting", event.target);
-    // localStorage.setItem("settings", JSON.stringify({row: "name", direction: "desc"}));
+  createSortHandler(id) {
+    return function(event) {
+      let { tableViewState } = this.props;
+      let { sorting } = tableViewState;
+      let newSorting = {
+        sortBy: id,
+        sortDescending: !sorting.sortDescending
+      };
+
+      this.props.sortByChanged(newSorting.sortBy);
+      this.props.sortDescendingChanged(newSorting.sortDescending);
+
+      this.props.fetchAnimals({ ...tableViewState, ...{ sorting: newSorting } });
+    }
+  }
+
+  createSortableLabel(id, label) {
+    let sortHandler = this.createSortHandler(id).bind(this);
+    let { sortBy, sortDescending } = this.props.tableViewState.sorting;
+    return (
+      <TableSortLabel
+        direction={sortDescending ? "dsc" : "asc"}
+        active={sortBy === id}
+        hideSortIcon={true}
+        onClick={sortHandler}>
+        {label}
+      </TableSortLabel>
+    );
   }
 
   render() {
@@ -52,11 +71,11 @@ export default class AnimalTable extends React.Component<AnimalTableProps, Anima
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell><TableSortLabel active={true} direction="asc" onClick={this.sort}>Name</TableSortLabel></TableCell>
-              <TableCell>Origin</TableCell>
-              <TableCell align="right">Population change</TableCell>
-              <TableCell>Carnivore</TableCell>
-              <TableCell align="right">Average height (cm.)</TableCell>
+              <TableCell>{this.createSortableLabel("name", "Name")}</TableCell>
+              <TableCell>{this.createSortableLabel("origin", "Origin")}</TableCell>
+              <TableCell align="right">{this.createSortableLabel("growth", "Population change")}</TableCell>
+              <TableCell>Carnivorous</TableCell>
+              <TableCell align="right">{this.createSortableLabel("height", "Average height (cm.)")}</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>

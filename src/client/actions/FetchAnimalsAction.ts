@@ -48,10 +48,10 @@ function constructQuery(requestSettings: TableViewState) {
   if (sorting) {
     let { sortBy, sortDescending } = sorting;
     if (sortBy) {
-      query += `sortyBy=${sortBy}&`;
+      query += `sortBy=${sortBy}&`;
     }
     if (sortDescending) {
-      query += `sortDescending=${sortDescending}&`;
+      query += `sortDesc&`;
     }
   }
   // if (filtering) {
