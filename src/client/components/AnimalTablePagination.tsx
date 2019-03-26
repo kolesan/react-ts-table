@@ -1,6 +1,6 @@
 import * as React from 'react';
 import TablePagination from "@material-ui/core/TablePagination";
-import { div } from "../utils/math-utils";
+import { div } from "../utils/MathUtils";
 import { connect } from "react-redux";
 import animalTablePageChanged from "../actions/AnimalTablePageChangedAction";
 import animalTableRowsPerPageChanged from "../actions/AnimalTableRowsPerPageChangedAction";

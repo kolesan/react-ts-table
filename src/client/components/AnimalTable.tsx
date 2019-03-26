@@ -5,8 +5,8 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import TableBody from "@material-ui/core/TableBody";
 import TableFooter from "@material-ui/core/TableFooter";
-import AnimalTableRow from "./animal-table-row";
-import AnimalTablePagination from "./animal-table-pagination";
+import AnimalTableRow from "./AnimalTableRow";
+import AnimalTablePagination from "./AnimalTablePagination";
 import AnimalsResponse from "../model/AnimalsResponse";
 
 interface AnimalTableProps {

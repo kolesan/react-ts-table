@@ -2,7 +2,7 @@ import ReactDOM from "react-dom";
 import * as React from "react";
 import { Provider } from "react-redux";
 import { createStore, applyMiddleware, combineReducers } from "redux";
-import AnimalTableContainer from "./containers/animal-table-container";
+import AnimalTableContainer from "./containers/AnimalTableContainer";
 import animalTablePageChangedReducer from "./reducers/AnimalTablePageChangedReducer";
 import animalTableRowsPerPageChangedReducer from "./reducers/AnimalTableRowsPerPageChangedReducer";
 import fetchAnimalsReducer from "./reducers/FetchAnimalsReducer";

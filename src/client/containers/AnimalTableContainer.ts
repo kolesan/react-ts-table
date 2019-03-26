@@ -1,5 +1,5 @@
 import { connect } from "react-redux";
-import AnimalTable from "../components/animal-table";
+import AnimalTable from "../components/AnimalTable";
 import fetchAnimals from "../actions/FetchAnimalsAction";
 
 function mapStateToProps({ animalsData, page, rowsPerPage }) {

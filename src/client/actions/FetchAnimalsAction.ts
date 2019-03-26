@@ -1,5 +1,5 @@
 import AnimalsResponse from "../model/AnimalsResponse";
-import log from "../utils/logging";
+import log from "../utils/Logging";
 const { default: axios } = require('axios');
 
 export const FETCH_ANIMALS = "Redux action for fetching animal data from the animal api";
