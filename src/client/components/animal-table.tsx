@@ -7,36 +7,32 @@ import TableBody from "@material-ui/core/TableBody";
 import TableFooter from "@material-ui/core/TableFooter";
 import AnimalTableRow from "./animal-table-row";
 import AnimalTablePagination from "./animal-table-pagination";
-import AnimalProvider, { AnimalData } from "../services/AnimalProvider";
+import AnimalsResponse from "../model/AnimalsResponse";
 
-interface AnimalTableProps {}
-interface AnimalTableState {
-  readonly animalData: AnimalData;
+interface AnimalTableProps {
+  readonly animalsData: AnimalsResponse;
+  readonly page: number;
+  readonly rowsPerPage: number;
+  readonly fetchAnimals: Function;
 }
-export default class AnimalTable extends React.Component<AnimalTableProps, AnimalTableState> {
-  state = {
-    animalData: {
-      total: 0,
-      animals: []
-    }
-  };
-  animalProvider = new AnimalProvider();
+interface AnimalTableState {}
 
-  constructor(props: AnimalTableProps) {
-    super(props);
-  }
+export default class AnimalTable extends React.Component<AnimalTableProps, AnimalTableState> {
 
   componentDidMount() {
-    this.requestAnimals(0, 10);
-  }
-
-  requestAnimals(page: number, rowsPerPage: number): void {
-    this.animalProvider.getAnimals(page, rowsPerPage)
-      .then(animalData => this.setState({animalData}));
+    this.props.fetchAnimals(this.props.page, this.props.rowsPerPage);
   }
 
   render() {
-    let { animals, total } = this.state.animalData;
+    let animals = [];
+    let total = 0;
+
+    let animalsData = this.props.animalsData;
+    if (animalsData) {
+      animals = animalsData.animals;
+      total = animalsData.total;
+    }
+
     return (
       <Table>
         <TableHead>
@@ -55,11 +51,7 @@ export default class AnimalTable extends React.Component<AnimalTableProps, Anima
         </TableBody>
         <TableFooter>
           <TableRow>
-            <AnimalTablePagination
-              total={total}
-              onPageChange={this.requestAnimals.bind(this)}
-              onRowsPerPageChange={this.requestAnimals.bind(this)}
-            />
+            <AnimalTablePagination total={total} />
           </TableRow>
         </TableFooter>
       </Table>
