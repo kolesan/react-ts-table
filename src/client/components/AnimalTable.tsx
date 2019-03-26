@@ -6,8 +6,8 @@ import TableRow from "@material-ui/core/TableRow";
 import TableBody from "@material-ui/core/TableBody";
 import TableFooter from "@material-ui/core/TableFooter";
 import AnimalTableRow from "./AnimalTableRow";
-import AnimalTablePagination from "./AnimalTablePagination";
 import AnimalsResponse from "../model/AnimalsResponse";
+import AnimalTablePaginationContainer from "../containers/AnimalTablePaginationContainer";
 
 interface AnimalTableProps {
   readonly animalsData: AnimalsResponse;
@@ -51,7 +51,7 @@ export default class AnimalTable extends React.Component<AnimalTableProps, Anima
         </TableBody>
         <TableFooter>
           <TableRow>
-            <AnimalTablePagination total={total} />
+            <AnimalTablePaginationContainer total={total} />
           </TableRow>
         </TableFooter>
       </Table>

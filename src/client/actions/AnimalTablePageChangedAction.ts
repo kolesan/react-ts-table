@@ -4,6 +4,6 @@ export default function animalTablePageChanged(page) {
   console.log("Page changed", page);
   return {
     type: ANIMAL_TABLE_PAGE_CHANGED,
-    page
+    payload: page
   }
 }

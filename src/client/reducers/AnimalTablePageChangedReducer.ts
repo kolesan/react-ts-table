@@ -2,7 +2,7 @@ import { ANIMAL_TABLE_PAGE_CHANGED } from "../actions/AnimalTablePageChangedActi
 
 export default function animalTablePageChangedReducer(state = 0, action) {
   if (action.type == ANIMAL_TABLE_PAGE_CHANGED) {
-    return action.page;
+    return action.payload;
   }
   return state;
 }
