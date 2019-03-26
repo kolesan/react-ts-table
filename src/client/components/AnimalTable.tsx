@@ -47,7 +47,7 @@ export default class AnimalTable extends React.Component<AnimalTableProps, Anima
     let { sortBy, sortDescending } = this.props.tableViewState.sorting;
     return (
       <TableSortLabel
-        direction={sortDescending ? "dsc" : "asc"}
+        direction={sortDescending ? "desc" : "asc"}
         active={sortBy === id}
         hideSortIcon={true}
         onClick={sortHandler}>
