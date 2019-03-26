@@ -5,17 +5,31 @@ import * as React from "react";
 import { Provider } from "react-redux";
 import { createStore, applyMiddleware, combineReducers } from "redux";
 import AnimalTableContainer from "./containers/AnimalTableContainer";
-import animalTablePageChangedReducer from "./reducers/AnimalTablePageChangedReducer";
-import animalTableRowsPerPageChangedReducer from "./reducers/AnimalTableRowsPerPageChangedReducer";
+import pageChangedReducer from "./reducers/PageChangedReducer";
+import rowsPerPageChangedReducer from "./reducers/RowsPerPageChangedReducer";
 import fetchAnimalsReducer from "./reducers/FetchAnimalsReducer";
+import sortDescendingReducer from "./reducers/SortyDescendingReducer";
+import sortByReducer from "./reducers/SortyByReducer";
 const { default: ReduxPromise } = require("redux-promise");
 
 let storeEnhancer = applyMiddleware(ReduxPromise);
 
 const rootReducer = combineReducers({
   animalsData: fetchAnimalsReducer,
-  page: animalTablePageChangedReducer,
-  rowsPerPage: animalTableRowsPerPageChangedReducer
+  tableViewState: combineReducers({
+    pagination: combineReducers({
+      page: pageChangedReducer,
+      rowsPerPage: rowsPerPageChangedReducer
+    }),
+    sorting: combineReducers({
+      sortBy: sortByReducer,
+      sortDescending: sortDescendingReducer,
+    }),
+    // filtering: {
+    //   filterBy: filterByReducer,
+    //   filterValue: filterValueReducer,
+    // }
+  })
 });
 
 const store = createStore(rootReducer, storeEnhancer);

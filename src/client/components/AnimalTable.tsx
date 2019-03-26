@@ -9,19 +9,32 @@ import AnimalTableRow from "./AnimalTableRow";
 import AnimalsResponse from "../model/AnimalsResponse";
 import AnimalTablePaginationContainer from "../containers/AnimalTablePaginationContainer";
 import Paper from "@material-ui/core/Paper";
+import TableSortLabel from "@material-ui/core/TableSortLabel";
+import log from "../utils/Logging";
+import { TableViewState } from "../actions/FetchAnimalsAction";
 
 interface AnimalTableProps {
   readonly animalsData: AnimalsResponse;
-  readonly page: number;
-  readonly rowsPerPage: number;
+  readonly tableViewState: TableViewState;
   readonly fetchAnimals: Function;
 }
 interface AnimalTableState {}
 
 export default class AnimalTable extends React.Component<AnimalTableProps, AnimalTableState> {
+  state = {
+    sorting: {
+      row: "name",
+      direction: "desc"
+    }
+  };
 
   componentDidMount() {
-    this.props.fetchAnimals(this.props.page, this.props.rowsPerPage);
+    this.props.fetchAnimals(this.props.tableViewState);
+  }
+
+  sort(event) {
+    log("Sorting", event.target);
+    // localStorage.setItem("settings", JSON.stringify({row: "name", direction: "desc"}));
   }
 
   render() {
@@ -39,7 +52,7 @@ export default class AnimalTable extends React.Component<AnimalTableProps, Anima
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell>Name</TableCell>
+              <TableCell><TableSortLabel active={true} direction="asc" onClick={this.sort}>Name</TableSortLabel></TableCell>
               <TableCell>Origin</TableCell>
               <TableCell align="right">Population change</TableCell>
               <TableCell>Carnivore</TableCell>

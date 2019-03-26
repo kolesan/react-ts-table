@@ -1,27 +1,24 @@
 import * as React from 'react';
 import { connect } from "react-redux";
-import animalTablePageChanged from "../actions/AnimalTablePageChangedAction";
-import animalTableRowsPerPageChanged from "../actions/AnimalTableRowsPerPageChangedAction";
-import fetchAnimals from "../actions/FetchAnimalsAction";
+import animalTablePageChanged from "../actions/PageChangedAction";
+import animalTableRowsPerPageChanged from "../actions/RowsPerPageChangedAction";
+import fetchAnimals, { TableViewState } from "../actions/FetchAnimalsAction";
 import AnimalTablePagination from "../components/AnimalTablePagination";
 
-function mapStateToProps(state) {
-  return {
-    page: state.page,
-    rowsPerPage: state.rowsPerPage
-  }
+function mapStateToProps({ tableViewState }) {
+  return { tableViewState };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    onPageChanged: (page, rowsPerPage) => {
-      dispatch(animalTablePageChanged(page));
-      dispatch(fetchAnimals(page, rowsPerPage));
+    onPageChanged: (tableViewState: TableViewState) => {
+      dispatch(animalTablePageChanged(tableViewState.pagination.page));
+      dispatch(fetchAnimals(tableViewState));
     },
-    onRowsPerPageChanged: (page, rowsPerPage) => {
-      dispatch(animalTablePageChanged(page));
-      dispatch(animalTableRowsPerPageChanged(rowsPerPage));
-      dispatch(fetchAnimals(page, rowsPerPage));
+    onRowsPerPageChanged: (tableViewState: TableViewState) => {
+      dispatch(animalTablePageChanged(tableViewState.pagination.page));
+      dispatch(animalTableRowsPerPageChanged(tableViewState.pagination.rowsPerPage));
+      dispatch(fetchAnimals(tableViewState));
     }
   }
 }

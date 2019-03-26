@@ -1,11 +1,11 @@
 import * as React from 'react';
 import TablePagination from "@material-ui/core/TablePagination";
 import { div } from "../utils/MathUtils";
+import { TableViewState } from "../actions/FetchAnimalsAction";
 
 interface AnimalTablePaginationProps {
   readonly total: number;
-  readonly page: number;
-  readonly rowsPerPage: number;
+  readonly tableViewState: TableViewState;
   readonly onPageChanged: Function;
   readonly onRowsPerPageChanged: Function;
 }
@@ -14,19 +14,29 @@ interface AnimalTablePaginationState {}
 export default class AnimalTablePagination extends React.Component<AnimalTablePaginationProps, AnimalTablePaginationState> {
 
   pageChange(event, page) {
-    let { rowsPerPage } = this.props;
-    this.props.onPageChanged(page, rowsPerPage);
+    let { tableViewState } = this.props;
+    let { pagination } = tableViewState;
+    let newPagination = Object.assign({}, pagination, {page});
+    let newTableViewState = Object.assign({}, tableViewState, {pagination: newPagination});
+    this.props.onPageChanged(newTableViewState);
   }
 
   rowsPerPageChange(event) {
-    let { rowsPerPage, page } = this.props;
+    let { tableViewState } = this.props;
+    let { rowsPerPage, page } = tableViewState.pagination;
     let newRowsPerPage = event.target.value;
     let newPage = div(rowsPerPage * page, newRowsPerPage);
-    this.props.onRowsPerPageChanged(newPage, newRowsPerPage);
+
+    let newPagination = {page: newPage, rowsPerPage: newRowsPerPage};
+
+    let newTableViewState = Object.assign({}, tableViewState, {pagination: newPagination});
+
+    this.props.onRowsPerPageChanged(newTableViewState);
   }
 
   render() {
-    let { total, page, rowsPerPage } = this.props;
+    let { total } = this.props;
+    let { page, rowsPerPage } = this.props.tableViewState.pagination;
     return (
       <TablePagination
         rowsPerPageOptions={[5, 10, 15]}

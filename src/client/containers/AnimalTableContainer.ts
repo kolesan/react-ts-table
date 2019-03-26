@@ -1,15 +1,15 @@
 import { connect } from "react-redux";
 import AnimalTable from "../components/AnimalTable";
-import fetchAnimals from "../actions/FetchAnimalsAction";
+import fetchAnimals, { TableViewState } from "../actions/FetchAnimalsAction";
 
-function mapStateToProps({ animalsData, page, rowsPerPage }) {
-  return { animalsData, page, rowsPerPage };
+function mapStateToProps({ animalsData, tableViewState }) {
+  return { animalsData, tableViewState };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    fetchAnimals: (page, rowsPerPage) => {
-      dispatch(fetchAnimals(page, rowsPerPage))
+    fetchAnimals: (tableViewState: TableViewState) => {
+      dispatch(fetchAnimals(tableViewState))
     }
   }
 }

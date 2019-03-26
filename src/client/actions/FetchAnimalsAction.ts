@@ -8,12 +8,63 @@ export interface FetchAnimalsAction {
   readonly type: String;
   readonly payload: Promise<AnimalsResponse>;
 }
+export interface TableViewState {
+  readonly pagination: Pagination;
+  readonly sorting: Sorting;
+  // readonly filtering: Filtering;
+}
+export interface Pagination {
+  readonly page: number;
+  readonly rowsPerPage: number;
+}
+export interface Sorting {
+  readonly sortBy: string;
+  readonly sortDescending: boolean;
+}
+export interface Filtering {
+  readonly filterBy: string;
+  readonly filterValue: string;
+}
 
-export default function fetchAnimals(page: number, rowsPerPage: number): FetchAnimalsAction {
-  let start = rowsPerPage * page;
-  let count = rowsPerPage;
+function constructQuery(requestSettings: TableViewState) {
+  // let {
+  //   pagination: { rowsPerPage, page },
+  //   sorting: { sortBy, sortDescending },
+  //   filtering: { filterBy, filterValue }
+  // } = requestSettings;
+  let {
+    pagination,
+    sorting,
+    // filtering
+  } = requestSettings;
 
-  let payload = axios.get(`http://${host}:${port}/animals?start=${start}&count=${count}`)
+  let query = "";
+  if (pagination) {
+    let { rowsPerPage, page } = pagination;
+    let start = rowsPerPage * page;
+    let count = rowsPerPage;
+    query += `start=${start}&count=${count}&`;
+  }
+  if (sorting) {
+    let { sortBy, sortDescending } = sorting;
+    if (sortBy) {
+      query += `sortyBy=${sortBy}&`;
+    }
+    if (sortDescending) {
+      query += `sortDescending=${sortDescending}&`;
+    }
+  }
+  // if (filtering) {
+  //   let { filterBy, filterValue } = filtering;
+  //   query += `filterBy=${filterBy}&filterValue=${filterValue}&`;
+  // }
+  return query;
+}
+
+export default function fetchAnimals(requestSettings: TableViewState): FetchAnimalsAction {
+  let query = constructQuery(requestSettings);
+
+  let payload = axios.get(`http://${host}:${port}/animals${query ? `?${query}` : ``}`)
     .catch(err => {
       log("Error retrieving data from animals api:", err);
     });
