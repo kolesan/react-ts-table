@@ -9,7 +9,7 @@ export default function AnimalTableRow(props) {
   let GrowthCell = cellWithColorByValue(growth);
   return (
     <TableRow>
-      <TableCell>{animal.name}</TableCell>
+      <TableCell><a href={animal.wiki} target="_blank">{animal.name}</a></TableCell>
       <TableCell>{animal.origin}</TableCell>
       <GrowthCell align="right">{growth}</GrowthCell>
       <TableCell>{animal.carnivore ? "Yes" : "No"}</TableCell>
