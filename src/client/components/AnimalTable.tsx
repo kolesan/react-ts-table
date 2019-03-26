@@ -8,6 +8,7 @@ import TableFooter from "@material-ui/core/TableFooter";
 import AnimalTableRow from "./AnimalTableRow";
 import AnimalsResponse from "../model/AnimalsResponse";
 import AnimalTablePaginationContainer from "../containers/AnimalTablePaginationContainer";
+import Paper from "@material-ui/core/Paper";
 
 interface AnimalTableProps {
   readonly animalsData: AnimalsResponse;
@@ -34,27 +35,29 @@ export default class AnimalTable extends React.Component<AnimalTableProps, Anima
     }
 
     return (
-      <Table>
-        <TableHead>
-          <TableRow>
-            <TableCell>Name</TableCell>
-            <TableCell>Origin</TableCell>
-            <TableCell align="right">Population change</TableCell>
-            <TableCell>Carnivore</TableCell>
-            <TableCell align="right">Average height (cm.)</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {animals.map(animal =>
-            <AnimalTableRow key={animal.id} animal={animal} />
-          )}
-        </TableBody>
-        <TableFooter>
-          <TableRow>
-            <AnimalTablePaginationContainer total={total} />
-          </TableRow>
-        </TableFooter>
-      </Table>
+      <Paper>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell>Name</TableCell>
+              <TableCell>Origin</TableCell>
+              <TableCell align="right">Population change</TableCell>
+              <TableCell>Carnivore</TableCell>
+              <TableCell align="right">Average height (cm.)</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {animals.map(animal =>
+              <AnimalTableRow key={animal.id} animal={animal} />
+            )}
+          </TableBody>
+          <TableFooter>
+            <TableRow>
+              <AnimalTablePaginationContainer total={total} />
+            </TableRow>
+          </TableFooter>
+        </Table>
+      </Paper>
     );
   }
 }
