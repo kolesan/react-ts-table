@@ -1,8 +1,9 @@
 import { connect } from "react-redux";
 import AnimalTable from "../components/AnimalTable";
-import fetchAnimals, { TableViewState } from "../actions/FetchAnimalsAction";
+import fetchAnimals, { Filtering, TableViewState } from "../actions/FetchAnimalsAction";
 import sortByChanged from "../actions/SortByAction";
 import sortDescendingChanged from "../actions/SortDescendingAction";
+import filteringChanged from "../actions/FilteringChangedAction";
 
 function mapStateToProps({ animalsData, tableViewState }) {
   return { animalsData, tableViewState };
@@ -18,6 +19,9 @@ function mapDispatchToProps(dispatch) {
     },
     sortDescendingChanged: (sortDescending: boolean) => {
       dispatch(sortDescendingChanged(sortDescending))
+    },
+    filteringChanged: (filtering: Filtering) => {
+      dispatch(filteringChanged(filtering))
     }
   }
 }

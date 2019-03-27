@@ -11,7 +11,7 @@ export interface FetchAnimalsAction {
 export interface TableViewState {
   readonly pagination: Pagination;
   readonly sorting: Sorting;
-  // readonly filtering: Filtering;
+  readonly filtering: Filtering;
 }
 export interface Pagination {
   readonly page: number;
@@ -22,20 +22,14 @@ export interface Sorting {
   readonly sortDescending: boolean;
 }
 export interface Filtering {
-  readonly filterBy: string;
-  readonly filterValue: string;
+  readonly filters: Map<string, string>;
 }
 
 function constructQuery(requestSettings: TableViewState) {
-  // let {
-  //   pagination: { rowsPerPage, page },
-  //   sorting: { sortBy, sortDescending },
-  //   filtering: { filterBy, filterValue }
-  // } = requestSettings;
   let {
     pagination,
     sorting,
-    // filtering
+    filtering
   } = requestSettings;
 
   let query = "";
@@ -54,10 +48,12 @@ function constructQuery(requestSettings: TableViewState) {
       query += `sortDesc&`;
     }
   }
-  // if (filtering) {
-  //   let { filterBy, filterValue } = filtering;
-  //   query += `filterBy=${filterBy}&filterValue=${filterValue}&`;
-  // }
+  if (filtering) {
+    let { filters } = filtering;
+    let filterBy = [...filters.keys()].join(",");
+    let filterValue = [...filters.values()].join(",");
+    query += `filterBy=${filterBy}&filterValue=${filterValue}&`;
+  }
   return query;
 }
 

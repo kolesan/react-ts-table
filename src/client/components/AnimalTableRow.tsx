@@ -5,7 +5,7 @@ import withStyles from "@material-ui/core/styles/withStyles";
 
 export default function AnimalTableRow(props) {
   let { animal } = props;
-  let growth = animal.growth;
+  let { growth } = animal;
   let GrowthCell = cellWithColorByValue(growth);
   return (
     <TableRow>

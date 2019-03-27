@@ -10,6 +10,7 @@ import rowsPerPageChangedReducer from "./reducers/RowsPerPageChangedReducer";
 import fetchAnimalsReducer from "./reducers/FetchAnimalsReducer";
 import sortDescendingReducer from "./reducers/SortyDescendingReducer";
 import sortByReducer from "./reducers/SortyByReducer";
+import filteringChangedReducer from "./reducers/FilteringChangedReducer";
 const { default: ReduxPromise } = require("redux-promise");
 
 let storeEnhancer = applyMiddleware(ReduxPromise);
@@ -25,10 +26,7 @@ const rootReducer = combineReducers({
       sortBy: sortByReducer,
       sortDescending: sortDescendingReducer,
     }),
-    // filtering: {
-    //   filterBy: filterByReducer,
-    //   filterValue: filterValueReducer,
-    // }
+    filtering: filteringChangedReducer
   })
 });
 

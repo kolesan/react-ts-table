@@ -12,6 +12,7 @@ import Paper from "@material-ui/core/Paper";
 import TableSortLabel from "@material-ui/core/TableSortLabel";
 import log from "../utils/Logging";
 import { TableViewState } from "../actions/FetchAnimalsAction";
+import Input from "@material-ui/core/Input";
 
 interface AnimalTableProps {
   readonly animalsData: AnimalsResponse;
@@ -56,6 +57,27 @@ export default class AnimalTable extends React.Component<AnimalTableProps, Anima
     );
   }
 
+  createFilterHandler(id: string) {
+    return function(event) {
+      const value = event.target.value;
+      const { tableViewState } = this.props;
+      const { filtering } = tableViewState;
+      const { filters } = filtering;
+      let newFilters = new Map(filters);
+      newFilters.set(id, value);
+      const newFiltering = { filters: newFilters };
+
+      this.props.filteringChanged(newFiltering);
+      this.props.fetchAnimals({ ...tableViewState, ...{ filtering: newFiltering } });
+    }
+  }
+
+  createFilterInput(id) {
+    let filterHandler = this.createFilterHandler(id).bind(this);
+    let { filters } = this.props.tableViewState.filtering;
+    return <Input placeholder="Filter value" onChange={filterHandler} value={filters.get(id)} />;
+  }
+
   render() {
     let animals = [];
     let total = 0;
@@ -76,6 +98,13 @@ export default class AnimalTable extends React.Component<AnimalTableProps, Anima
               <TableCell align="right">{this.createSortableLabel("growth", "Population change")}</TableCell>
               <TableCell>Carnivorous</TableCell>
               <TableCell align="right">{this.createSortableLabel("height", "Average height (cm.)")}</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell>{this.createFilterInput("name")}</TableCell>
+              <TableCell>{this.createFilterInput("origin")}</TableCell>
+              <TableCell></TableCell>
+              <TableCell></TableCell>
+              <TableCell></TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
