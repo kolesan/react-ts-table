@@ -1,9 +1,8 @@
 import * as React from 'react';
 import { connect } from "react-redux";
-import animalTablePageChanged from "../actions/PageChangedAction";
-import animalTableRowsPerPageChanged from "../actions/RowsPerPageChangedAction";
-import fetchAnimals, { TableViewState } from "../actions/FetchAnimalsAction";
+import fetchAnimals, { Pagination, TableViewState } from "../actions/FetchAnimalsAction";
 import AnimalTablePagination from "../components/AnimalTablePagination";
+import paginationChanged from "../actions/PaginationAction";
 
 function mapStateToProps({ tableViewState }) {
   return { tableViewState };
@@ -11,14 +10,11 @@ function mapStateToProps({ tableViewState }) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    onPageChanged: (tableViewState: TableViewState) => {
-      dispatch(animalTablePageChanged(tableViewState.pagination.page));
-      dispatch(fetchAnimals(tableViewState));
+    fetchAnimals: (tableViewState: TableViewState) => {
+      dispatch(fetchAnimals(tableViewState))
     },
-    onRowsPerPageChanged: (tableViewState: TableViewState) => {
-      dispatch(animalTablePageChanged(tableViewState.pagination.page));
-      dispatch(animalTableRowsPerPageChanged(tableViewState.pagination.rowsPerPage));
-      dispatch(fetchAnimals(tableViewState));
+    paginationChanged: (pagination: Pagination) => {
+      dispatch(paginationChanged(pagination))
     }
   }
 }
