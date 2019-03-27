@@ -18,21 +18,24 @@ export default function AnimalTablePagination(props) {
   );
 
   function pageChange(event, page) {
-    let { tableViewState } = props;
-    let { pagination } = tableViewState;
-    let newPagination = Object.assign({}, pagination, {page});
-    props.paginationChanged(newPagination);
+    let { rowsPerPage } = props.tableViewState.pagination;
+
+    props.paginationChanged({
+      page,
+      rowsPerPage
+    });
   }
 
   function rowsPerPageChange(event) {
-    let { tableViewState } = props;
-    let { rowsPerPage, page } = tableViewState.pagination;
+    let { page, rowsPerPage } = props.tableViewState.pagination;
+
     let newRowsPerPage = event.target.value;
     let newPage = div(rowsPerPage * page, newRowsPerPage);
 
-    let newPagination = {page: newPage, rowsPerPage: newRowsPerPage};
-
-    props.paginationChanged(newPagination);
+    props.paginationChanged({
+      page: newPage,
+      rowsPerPage: newRowsPerPage
+    });
   }
 
 }
