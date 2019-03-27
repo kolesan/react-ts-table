@@ -52,7 +52,9 @@ function constructQuery(requestSettings: TableViewState) {
     let { filters } = filtering;
     let filterBy = [...filters.keys()].join(",");
     let filterValue = [...filters.values()].join(",");
-    query += `filterBy=${filterBy}&filterValue=${filterValue}&`;
+    if (filterBy) {
+      query += `filterBy=${filterBy}&filterValue=${filterValue}&`;
+    }
   }
   return query;
 }
