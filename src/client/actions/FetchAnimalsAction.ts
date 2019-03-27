@@ -1,5 +1,6 @@
 import AnimalsResponse from "../model/AnimalsResponse";
 import log from "../utils/Logging";
+import { TableViewState } from "../model/TableViewState";
 const { default: axios } = require('axios');
 const { host, port } = CONFIG.server;
 export const FETCH_ANIMALS = "Redux action for fetching animal data from the animal api";
@@ -7,22 +8,6 @@ export const FETCH_ANIMALS = "Redux action for fetching animal data from the ani
 export interface FetchAnimalsAction {
   readonly type: String;
   readonly payload: Promise<AnimalsResponse>;
-}
-export interface TableViewState {
-  readonly pagination: Pagination;
-  readonly sorting: Sorting;
-  readonly filtering: Filtering;
-}
-export interface Pagination {
-  readonly page: number;
-  readonly rowsPerPage: number;
-}
-export interface Sorting {
-  readonly sortBy: string;
-  readonly sortDescending: boolean;
-}
-export interface Filtering {
-  readonly filters: object;
 }
 
 function constructQuery(requestSettings: TableViewState) {

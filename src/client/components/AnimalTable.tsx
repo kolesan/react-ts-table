@@ -11,8 +11,8 @@ import AnimalTablePaginationContainer from "../containers/AnimalTablePaginationC
 import Paper from "@material-ui/core/Paper";
 import TableSortLabel from "@material-ui/core/TableSortLabel";
 import log from "../utils/Logging";
-import { TableViewState } from "../actions/FetchAnimalsAction";
 import Input from "@material-ui/core/Input";
+import { TableViewState } from "../model/TableViewState";
 
 interface AnimalTableProps {
   readonly animalsData: AnimalsResponse;

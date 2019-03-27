@@ -1,4 +1,4 @@
-import { Filtering } from "./FetchAnimalsAction";
+import { Filtering } from "../model/TableViewState";
 export const FILTERING_CHANGED = "filter changed";
 
 export default function filteringChanged(filtering: Filtering) {

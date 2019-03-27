@@ -1,4 +1,5 @@
-import { Sorting } from "./FetchAnimalsAction";
+import { Sorting } from "../model/TableViewState";
+
 export const SORTING_CHANGED = "sorting changed";
 
 export default function sortingChanged(sorting: Sorting) {

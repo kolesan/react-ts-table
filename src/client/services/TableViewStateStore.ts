@@ -1,6 +1,6 @@
-import { TableViewState } from "../actions/FetchAnimalsAction";
 import log from "../utils/Logging";
 import _merge from "lodash.merge";
+import { TableViewState } from "../model/TableViewState";
 
 const STORAGE_KEY = "tableViewState";
 

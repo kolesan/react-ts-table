@@ -1,4 +1,4 @@
-import { Pagination } from "./FetchAnimalsAction";
+import { Pagination } from "../model/TableViewState"
 
 export const PAGINATION_CHANGED = "pagination changed";
 

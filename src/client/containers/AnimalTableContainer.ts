@@ -1,8 +1,9 @@
 import { connect } from "react-redux";
 import AnimalTable from "../components/AnimalTable";
-import fetchAnimals, { Filtering, Sorting, TableViewState } from "../actions/FetchAnimalsAction";
+import fetchAnimals from "../actions/FetchAnimalsAction";
 import filteringChanged from "../actions/FilteringChangedAction";
 import sortingChanged from "../actions/SortingChangedAction";
+import { Filtering, Sorting, TableViewState } from "../model/TableViewState";
 
 function mapStateToProps({ animalsData, tableViewState }) {
   return { animalsData, tableViewState };

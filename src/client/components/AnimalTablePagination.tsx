@@ -1,7 +1,7 @@
 import * as React from 'react';
 import TablePagination from "@material-ui/core/TablePagination";
 import { div } from "../utils/MathUtils";
-import { TableViewState } from "../actions/FetchAnimalsAction";
+import { TableViewState } from "../model/TableViewState";
 
 interface AnimalTablePaginationProps {
   readonly total: number;

@@ -1,8 +1,9 @@
 import * as React from 'react';
 import { connect } from "react-redux";
-import fetchAnimals, { Pagination, TableViewState } from "../actions/FetchAnimalsAction";
+import fetchAnimals from "../actions/FetchAnimalsAction";
 import AnimalTablePagination from "../components/AnimalTablePagination";
 import paginationChanged from "../actions/PaginationAction";
+import { Pagination, TableViewState } from "../model/TableViewState";
 
 function mapStateToProps({ tableViewState }) {
   return { tableViewState };
