@@ -15,11 +15,6 @@ log("Loading configuration: ", config);
 let app = express();
 let server = app.listen(port, () => log(`Express server listening on port ${port}!`));
 
-if (config.production) {
-  log("Serving static content from: ", bundleDir);
-  app.use(express.static(bundleDir));
-  app.use((req, res) => res.sendFile(`${path.resolve(bundleDir)}/index.html`));
-}
 
 if (!config.production) {
   app.use(function (req, res, next) {
@@ -37,3 +32,10 @@ animalRouter.applyRoutes(app);
 
 app.use(parameterValidationErrorHandler);
 app.use(validationErrorHandler);
+
+
+if (config.production) {
+  log("Serving static content from: ", bundleDir);
+  app.use(express.static(bundleDir));
+  app.use((req, res) => res.sendFile(`${path.resolve(bundleDir)}/index.html`));
+}

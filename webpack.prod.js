@@ -7,7 +7,8 @@ module.exports = merge(common, {
     mode: 'production',
     plugins: [
       new webpack.DefinePlugin({
-        CONFIG: JSON.stringify(config)
+        CONFIG: JSON.stringify(config),
+        'process.env.NODE_ENV': JSON.stringify('production')
       })
     ],
     module: {
