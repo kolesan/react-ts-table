@@ -15,13 +15,17 @@ export default function AnimalTableFiltering(props) {
     </TableRow>
   );
 
+  function createFilterInput(id: string) {
+    let filterHandler = createFilterHandler(id);
+    let { filters } = props.tableViewState.filtering;
+    return <Input placeholder="Filter value" onChange={filterHandler} value={filters[id] || ""} />;
+  }
+
   function createFilterHandler(id: string) {
     return function(event) {
       const value = event.target.value;
-      const { tableViewState } = props;
-      const { filtering } = tableViewState;
-      const { filters } = filtering;
-      let newFilters = {...filters};
+
+      let newFilters = {...props.tableViewState.filtering.filters};
       if (value === "") {
         delete newFilters[id];
       } else {
@@ -31,11 +35,5 @@ export default function AnimalTableFiltering(props) {
 
       props.filteringChanged(newFiltering);
     }
-  }
-
-  function createFilterInput(id: string) {
-    let filterHandler = createFilterHandler(id);
-    let { filters } = props.tableViewState.filtering;
-    return <Input placeholder="Filter value" onChange={filterHandler} value={filters[id] || ""} />;
   }
 }
