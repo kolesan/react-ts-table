@@ -2,7 +2,7 @@ import * as React from 'react';
 import { connect } from "react-redux";
 import AnimalTablePagination from "../components/AnimalTablePagination";
 import paginationChanged from "../actions/PaginationAction";
-import { Pagination, TableViewState } from "../model/TableViewState";
+import { Pagination } from "../model/TableViewState";
 
 function mapStateToProps({ tableViewState }) {
   return { tableViewState };
