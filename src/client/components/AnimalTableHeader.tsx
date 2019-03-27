@@ -2,6 +2,7 @@ import * as React from 'react';
 import TableCell from "@material-ui/core/TableCell";
 import TableRow from "@material-ui/core/TableRow";
 import TableSortLabel from "@material-ui/core/TableSortLabel";
+import { Sorting } from "../model/TableViewState";
 
 export default function AnimalTableHeader(props) {
 
@@ -32,12 +33,11 @@ export default function AnimalTableHeader(props) {
   function createSortHandler(id) {
     return function(event) {
       let { sorting } = props.tableViewState;
-      let newSorting = {
+
+      props.sortingChanged({
         sortBy: id,
         sortDescending: id !== sorting.sortBy ? false : !sorting.sortDescending
-      };
-
-      props.sortingChanged(newSorting);
+      });
     }
   }
 }

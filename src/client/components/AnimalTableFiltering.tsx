@@ -2,6 +2,7 @@ import * as React from 'react';
 import TableCell from "@material-ui/core/TableCell";
 import TableRow from "@material-ui/core/TableRow";
 import Input from "@material-ui/core/Input";
+import { Filtering } from "../model/TableViewState";
 
 export default function AnimalTableFiltering(props) {
 
@@ -29,7 +30,7 @@ export default function AnimalTableFiltering(props) {
     }
   }
 
-  function newFilteringState(id, value) {
+  function newFilteringState(id: string, value: string): Filtering {
     let newFilters = {...props.tableViewState.filtering.filters};
     if (value === "") {
       delete newFilters[id];

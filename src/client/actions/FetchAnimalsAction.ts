@@ -28,7 +28,7 @@ export default function fetchAnimals(tableViewState: TableViewState): FetchAnima
   }
 }
 
-function constructQuery({ pagination, sorting, filtering }) {
+function constructQuery({ pagination, sorting, filtering }: TableViewState): string {
   return pipe("",
     withPagination(pagination),
     withSorting(sorting),

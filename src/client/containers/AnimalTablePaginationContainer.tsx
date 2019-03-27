@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { connect } from "react-redux";
 import AnimalTablePagination from "../components/AnimalTablePagination";
 import paginationChanged from "../actions/PaginationAction";

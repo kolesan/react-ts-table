@@ -18,7 +18,8 @@ interface AnimalTableProps {
   readonly tableViewState: TableViewState;
   readonly fetchAnimals: Function;
 }
-interface AnimalTableState {}
+interface AnimalTableState {
+}
 
 export default class AnimalTable extends React.Component<AnimalTableProps, AnimalTableState> {
 

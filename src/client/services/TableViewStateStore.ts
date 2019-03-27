@@ -18,11 +18,11 @@ const defaultTableViewState: TableViewState = {
   }
 };
 
-export function loadTableViewState() {
+export function loadTableViewState(): TableViewState {
   let loadedTableViewState = JSON.parse(localStorage.getItem(STORAGE_KEY));
   return _merge({}, defaultTableViewState, loadedTableViewState);
 }
 
-export function saveTableViewState(tableViewState) {
+export function saveTableViewState(tableViewState): void {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(tableViewState));
 }
