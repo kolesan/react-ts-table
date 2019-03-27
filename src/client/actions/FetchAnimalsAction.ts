@@ -1,6 +1,7 @@
 import AnimalsResponse from "../model/AnimalsResponse";
 import log from "../utils/Logging";
 import { Filtering, Pagination, Sorting, TableViewState } from "../model/TableViewState";
+import { pipe } from "../utils/FunctionalUtils";
 const { default: axios } = require('axios');
 const { host, port } = CONFIG.server;
 
@@ -11,10 +12,12 @@ export interface FetchAnimalsAction {
   readonly payload: Promise<AnimalsResponse>;
 }
 
-export default function fetchAnimals(requestSettings: TableViewState): FetchAnimalsAction {
-  let query = constructQuery(requestSettings);
+export default function fetchAnimals(tableViewState: TableViewState): FetchAnimalsAction {
+  let query = constructQuery(tableViewState);
+  let portString = port ? `:${port}` : ``;
+  let queryString = query ? `?${query}` : ``;
 
-  let payload = axios.get(`http://${host}${port ? `:${port}` : ``}/animals${query ? `?${query}` : ``}`)
+  let payload = axios.get(`http://${host}${portString}/animals${queryString}`)
     .catch(err => {
       log("Error retrieving data from animals api:", err);
     });
@@ -25,48 +28,52 @@ export default function fetchAnimals(requestSettings: TableViewState): FetchAnim
   }
 }
 
-function constructQuery(requestSettings: TableViewState) {
-  let {
-    pagination,
-    sorting,
-    filtering
-  } = requestSettings;
-
-  return withPaginationParams(withSortingParams(withFilteringParams("", filtering), sorting), pagination);
+function constructQuery({ pagination, sorting, filtering }) {
+  return pipe("",
+    withPagination(pagination),
+    withSorting(sorting),
+    withFiltering(filtering)
+  );
 }
 
-function withPaginationParams(query: string, pagination: Pagination) {
-  if (pagination) {
-    let { rowsPerPage, page } = pagination;
-    let start = rowsPerPage * page;
-    let count = rowsPerPage;
-    return query + `start=${start}&count=${count}&`;
+function withPagination(pagination: Pagination) {
+  return function(query) {
+    if (pagination) {
+      let { rowsPerPage, page } = pagination;
+      let start = rowsPerPage * page;
+      let count = rowsPerPage;
+      return query + `start=${start}&count=${count}&`;
+    }
+    return query;
   }
-  return query;
 }
 
-function withSortingParams(query: string, sorting: Sorting) {
-  let newQuery = query;
-  if (sorting) {
-    let { sortBy, sortDescending } = sorting;
-    if (sortBy) {
-      newQuery += `sortBy=${sortBy}&`;
+function withSorting(sorting: Sorting) {
+  return function(query) {
+    let newQuery = query;
+    if (sorting) {
+      let {sortBy, sortDescending} = sorting;
+      if (sortBy) {
+        newQuery += `sortBy=${sortBy}&`;
+      }
+      if (sortDescending) {
+        newQuery += `sortDesc&`;
+      }
     }
-    if (sortDescending) {
-      newQuery += `sortDesc&`;
-    }
+    return newQuery;
   }
-  return newQuery;
 }
 
-function withFilteringParams(query: string, filtering: Filtering) {
-  if (filtering) {
-    let { filters } = filtering;
-    let filterBy = [...Object.keys(filters)].join(",");
-    let filterValue = [...Object.values(filters)].join(",");
-    if (filterBy) {
-      return query + `filterBy=${filterBy}&filterValue=${filterValue}&`;
+function withFiltering(filtering: Filtering) {
+  return function(query) {
+    if (filtering) {
+      let { filters } = filtering;
+      let filterBy = [...Object.keys(filters)].join(",");
+      let filterValue = [...Object.values(filters)].join(",");
+      if (filterBy) {
+        return query + `filterBy=${filterBy}&filterValue=${filterValue}&`;
+      }
     }
+    return query;
   }
-  return query;
 }
