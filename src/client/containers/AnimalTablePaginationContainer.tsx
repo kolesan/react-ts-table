@@ -4,8 +4,8 @@ import AnimalTablePagination from "../components/AnimalTablePagination";
 import paginationChanged from "../actions/PaginationAction";
 import { Pagination } from "../model/TableViewState";
 
-function mapStateToProps({ tableViewState }) {
-  return { tableViewState };
+function mapStateToProps({ animalsData, tableViewState }) {
+  return { total: animalsData.total, tableViewState };
 }
 
 function mapDispatchToProps(dispatch) {

@@ -27,14 +27,7 @@ export default class AnimalTable extends React.Component<AnimalTableProps, Anima
   }
 
   render() {
-    let animals = [];
-    let total = 0;
-
-    let animalsData = this.props.animalsData;
-    if (animalsData) {
-      animals = animalsData.animals;
-      total = animalsData.total;
-    }
+    let { animals } = this.props.animalsData;
 
     return (
       <Paper>
@@ -50,7 +43,7 @@ export default class AnimalTable extends React.Component<AnimalTableProps, Anima
           </TableBody>
           <TableFooter>
             <TableRow>
-              <AnimalTablePaginationContainer total={total} />
+              <AnimalTablePaginationContainer />
             </TableRow>
           </TableFooter>
         </Table>
