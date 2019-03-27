@@ -90,6 +90,10 @@ function sortableAnimalProperty(param: string, name: string): string {
 }
 
 function filterValues(param: string, name: string, filterBy: string[]): string[] {
+  if (!param) {
+    return;
+  }
+
   let values = param.split(",");
   if (values.length !== filterBy.length) {
     throw new ParameterValidationError(

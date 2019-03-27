@@ -27,7 +27,7 @@ export class AnimalRepository implements Repository<Animal> {
 }
 
 function arrayFilter(options: FilterOptions) {
-  const { fields, values } = options;
+  const { fields = [], values = [] } = options;
   const filterEntries = makeFilterEntries(fields, values);
   const filters = resolveFilters(filterEntries);
   return function(arr: Animal[]): Animal[] {
