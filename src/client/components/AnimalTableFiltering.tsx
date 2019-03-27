@@ -25,15 +25,17 @@ export default function AnimalTableFiltering(props) {
     return function(event) {
       const value = event.target.value;
 
-      let newFilters = {...props.tableViewState.filtering.filters};
-      if (value === "") {
-        delete newFilters[id];
-      } else {
-        newFilters[id] = value;
-      }
-      const newFiltering = { filters: newFilters };
-
-      props.filteringChanged(newFiltering);
+      props.filteringChanged(newFilteringState(id, value));
     }
+  }
+
+  function newFilteringState(id, value) {
+    let newFilters = {...props.tableViewState.filtering.filters};
+    if (value === "") {
+      delete newFilters[id];
+    } else {
+      newFilters[id] = value;
+    }
+    return { filters: newFilters };
   }
 }
