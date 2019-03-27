@@ -8,11 +8,10 @@ import AnimalTableContainer from "./containers/AnimalTableContainer";
 import pageChangedReducer from "./reducers/PageChangedReducer";
 import rowsPerPageChangedReducer from "./reducers/RowsPerPageChangedReducer";
 import fetchAnimalsReducer from "./reducers/FetchAnimalsReducer";
-import sortDescendingReducer from "./reducers/SortyDescendingReducer";
-import sortByReducer from "./reducers/SortyByReducer";
 import filteringChangedReducer from "./reducers/FilteringChangedReducer";
 import SaveViewStateToLocalStorage from "./middleware/SaveTableViewState";
 import { loadTableViewState } from "./services/TableViewStateStore";
+import sortingChangedReducer from "./reducers/SortingChangedReducer";
 
 const { default: ReduxPromise } = require("redux-promise");
 
@@ -25,10 +24,7 @@ const rootReducer = combineReducers({
       page: pageChangedReducer,
       rowsPerPage: rowsPerPageChangedReducer
     }),
-    sorting: combineReducers({
-      sortBy: sortByReducer,
-      sortDescending: sortDescendingReducer,
-    }),
+    sorting: sortingChangedReducer,
     filtering: filteringChangedReducer
   })
 });

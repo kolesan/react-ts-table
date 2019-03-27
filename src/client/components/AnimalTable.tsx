@@ -33,12 +33,10 @@ export default class AnimalTable extends React.Component<AnimalTableProps, Anima
       let { sorting } = tableViewState;
       let newSorting = {
         sortBy: id,
-        sortDescending: !sorting.sortDescending
+        sortDescending: id !== sorting.sortBy ? false : !sorting.sortDescending
       };
 
-      this.props.sortByChanged(newSorting.sortBy);
-      this.props.sortDescendingChanged(newSorting.sortDescending);
-
+      this.props.sortingChanged(newSorting);
       this.props.fetchAnimals({ ...tableViewState, ...{ sorting: newSorting } });
     }
   }

@@ -1,8 +1,7 @@
 import { FILTERING_CHANGED } from "../actions/FilteringChangedAction";
 import { ANIMAL_TABLE_PAGE_CHANGED } from "../actions/PageChangedAction";
 import { ANIMAL_TABLE_ROWS_PER_PAGE_CHANGED } from "../actions/RowsPerPageChangedAction";
-import { SORT_BY } from "../actions/SortByAction";
-import { SORT_DESCENDING } from "../actions/SortDescendingAction";
+import { SORTING_CHANGED } from "../actions/SortingChangedAction";
 import { saveTableViewState } from "../services/TableViewStateStore";
 
 const SaveViewStateToLocalStorage = store => next => action => {
@@ -12,8 +11,7 @@ const SaveViewStateToLocalStorage = store => next => action => {
     case FILTERING_CHANGED:
     case ANIMAL_TABLE_PAGE_CHANGED:
     case ANIMAL_TABLE_ROWS_PER_PAGE_CHANGED:
-    case SORT_BY:
-    case SORT_DESCENDING:
+    case SORTING_CHANGED:
       saveTableViewState(store.getState().tableViewState);
   }
 
