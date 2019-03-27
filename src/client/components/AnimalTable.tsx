@@ -17,7 +17,6 @@ import { TableViewState } from "../model/TableViewState";
 interface AnimalTableProps {
   readonly animalsData: AnimalsResponse;
   readonly tableViewState: TableViewState;
-  readonly fetchAnimals: Function;
 }
 interface AnimalTableState {}
 
@@ -37,7 +36,6 @@ export default class AnimalTable extends React.Component<AnimalTableProps, Anima
       };
 
       this.props.sortingChanged(newSorting);
-      this.props.fetchAnimals({ ...tableViewState, ...{ sorting: newSorting } });
     }
   }
 
@@ -70,7 +68,6 @@ export default class AnimalTable extends React.Component<AnimalTableProps, Anima
       const newFiltering = { filters: newFilters };
 
       this.props.filteringChanged(newFiltering);
-      this.props.fetchAnimals({ ...tableViewState, ...{ filtering: newFiltering } });
     }
   }
 

@@ -10,6 +10,20 @@ export interface FetchAnimalsAction {
   readonly payload: Promise<AnimalsResponse>;
 }
 
+export default function fetchAnimals(requestSettings: TableViewState): FetchAnimalsAction {
+  let query = constructQuery(requestSettings);
+
+  let payload = axios.get(`http://${host}${port ? `:${port}` : ``}/animals${query ? `?${query}` : ``}`)
+    .catch(err => {
+      log("Error retrieving data from animals api:", err);
+    });
+
+  return {
+    type: FETCH_ANIMALS,
+    payload
+  }
+}
+
 function constructQuery(requestSettings: TableViewState) {
   let {
     pagination,
@@ -42,18 +56,4 @@ function constructQuery(requestSettings: TableViewState) {
     }
   }
   return query;
-}
-
-export default function fetchAnimals(requestSettings: TableViewState): FetchAnimalsAction {
-  let query = constructQuery(requestSettings);
-
-  let payload = axios.get(`http://${host}${port ? `:${port}` : ``}/animals${query ? `?${query}` : ``}`)
-    .catch(err => {
-      log("Error retrieving data from animals api:", err);
-    });
-
-  return {
-    type: FETCH_ANIMALS,
-    payload
-  }
 }

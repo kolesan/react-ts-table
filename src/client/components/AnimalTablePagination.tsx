@@ -7,7 +7,6 @@ interface AnimalTablePaginationProps {
   readonly total: number;
   readonly tableViewState: TableViewState;
   readonly paginationChanged: Function;
-  readonly fetchAnimals: Function;
 }
 interface AnimalTablePaginationState {}
 
@@ -17,9 +16,7 @@ export default class AnimalTablePagination extends React.Component<AnimalTablePa
     let { tableViewState } = this.props;
     let { pagination } = tableViewState;
     let newPagination = Object.assign({}, pagination, {page});
-    let newTableViewState = Object.assign({}, tableViewState, {pagination: newPagination});
     this.props.paginationChanged(newPagination);
-    this.props.fetchAnimals(newTableViewState);
   }
 
   rowsPerPageChange(event) {
@@ -30,10 +27,7 @@ export default class AnimalTablePagination extends React.Component<AnimalTablePa
 
     let newPagination = {page: newPage, rowsPerPage: newRowsPerPage};
 
-    let newTableViewState = Object.assign({}, tableViewState, {pagination: newPagination});
-
     this.props.paginationChanged(newPagination);
-    this.props.fetchAnimals(newTableViewState);
   }
 
   render() {

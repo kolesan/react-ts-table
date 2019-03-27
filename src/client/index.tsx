@@ -11,10 +11,11 @@ import SaveViewStateToLocalStorage from "./middleware/SaveTableViewState";
 import { loadTableViewState } from "./services/TableViewStateStore";
 import sortingChangedReducer from "./reducers/SortingReducer";
 import paginationReducer from "./reducers/PaginationReducer";
+import FetchAnimalsAfterTableViewStateChange from "./middleware/FetchAnimalsAfterTableViewStateChange";
 
 const { default: ReduxPromise } = require("redux-promise");
 
-let storeEnhancer = applyMiddleware(SaveViewStateToLocalStorage, ReduxPromise);
+let storeEnhancer = applyMiddleware(SaveViewStateToLocalStorage, FetchAnimalsAfterTableViewStateChange, ReduxPromise);
 
 const rootReducer = combineReducers({
   animalsData: fetchAnimalsReducer,
