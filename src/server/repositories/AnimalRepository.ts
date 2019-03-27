@@ -13,14 +13,15 @@ import { log } from "../utils/Logging";
 
 export class AnimalRepository implements Repository<Animal> {
   findAll(options: FindOptions): FindAllResult<Animal> {
-    const animals = pipe(data,
-      arrayFilter(options.filter),
+    const filtered = arrayFilter(options.filter)(data);
+
+    const animals = pipe(filtered,
       arraySorter(options.sort),
       arraySlicer(options.take)
     );
 
     return {
-      total: data.length,
+      total: filtered.length,
       items: animals
     }
   }
