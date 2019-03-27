@@ -11,9 +11,12 @@ import fetchAnimalsReducer from "./reducers/FetchAnimalsReducer";
 import sortDescendingReducer from "./reducers/SortyDescendingReducer";
 import sortByReducer from "./reducers/SortyByReducer";
 import filteringChangedReducer from "./reducers/FilteringChangedReducer";
+import SaveViewStateToLocalStorage from "./middleware/SaveTableViewState";
+import { loadTableViewState } from "./services/TableViewStateStore";
+
 const { default: ReduxPromise } = require("redux-promise");
 
-let storeEnhancer = applyMiddleware(ReduxPromise);
+let storeEnhancer = applyMiddleware(SaveViewStateToLocalStorage, ReduxPromise);
 
 const rootReducer = combineReducers({
   animalsData: fetchAnimalsReducer,
@@ -30,7 +33,7 @@ const rootReducer = combineReducers({
   })
 });
 
-const store = createStore(rootReducer, storeEnhancer);
+const store = createStore(rootReducer, {tableViewState: loadTableViewState()}, storeEnhancer);
 let app = (
   <Provider store={store}>
     <AnimalTableContainer/>

@@ -22,7 +22,7 @@ export interface Sorting {
   readonly sortDescending: boolean;
 }
 export interface Filtering {
-  readonly filters: Map<string, string>;
+  readonly filters: object;
 }
 
 function constructQuery(requestSettings: TableViewState) {
@@ -50,8 +50,8 @@ function constructQuery(requestSettings: TableViewState) {
   }
   if (filtering) {
     let { filters } = filtering;
-    let filterBy = [...filters.keys()].join(",");
-    let filterValue = [...filters.values()].join(",");
+    let filterBy = [...Object.keys(filters)].join(",");
+    let filterValue = [...Object.values(filters)].join(",");
     if (filterBy) {
       query += `filterBy=${filterBy}&filterValue=${filterValue}&`;
     }
