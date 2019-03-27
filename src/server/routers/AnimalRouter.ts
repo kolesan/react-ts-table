@@ -18,12 +18,12 @@ export class AnimalRouter implements Router {
       const start = positiveFiniteNumber(req.query.start, "start", 0);
       const count = positiveFiniteNumber(req.query.count, "count", 10);
       const sortBy = sortableAnimalProperty(req.query.sortBy, "sortBy");
-      const filterBy = filterableAnimalProperty(req.query.filterBy, "filterBy");
-      const filterValue = req.query.filterValue;
+      const filterBy = filterableAnimalProperties(req.query.filterBy, "filterBy");
+      const filterValue = filterValues(req.query.filterValue, "filterValue", filterBy);
       const sortDescending = req.query.sortDesc !== undefined;
 
       let options: FindOptions = {
-        filter: { field: filterBy, value: filterValue },
+        filter: { fields: filterBy, values: filterValue },
         sort: { field: sortBy, descending: sortDescending},
         take: { start, count }
       };
@@ -54,21 +54,25 @@ function validAnimalProperty(param: string, name: string): string {
   }
   return param;
 }
-function filterableAnimalProperty(param: string, name: string): string {
+
+function filterableAnimalProperties(param: string, name: string): string[] {
   if (!param) {
     return;
   }
 
-  validAnimalProperty(param, name);
-  if (!AnimalProperties.get(param).filterable) {
-    throw new ParameterValidationError(
-      `Invalid property '${name}: ${param}'. Property can not be filtered by`,
-      name,
-      param
-    );
-  }
-  return param;
+  return param.split(",").map(property => {
+    validAnimalProperty(property, name);
+    if (!AnimalProperties.get(property).filterable) {
+      throw new ParameterValidationError(
+        `Invalid property '${name}: ${property}'. Property can not be filtered by`,
+        name,
+        property
+      );
+    }
+    return property;
+  });
 }
+
 function sortableAnimalProperty(param: string, name: string): string {
   if (!param) {
     return;
@@ -83,4 +87,16 @@ function sortableAnimalProperty(param: string, name: string): string {
     );
   }
   return param;
+}
+
+function filterValues(param: string, name: string, filterBy: string[]): string[] {
+  let values = param.split(",");
+  if (values.length !== filterBy.length) {
+    throw new ParameterValidationError(
+      `Invalid property '${name}: ${param}'. Should be a list of values separated by a comma, with same count of values as filterBy.`,
+      name,
+      param
+    );
+  }
+  return values;
 }

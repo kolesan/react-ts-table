@@ -9,10 +9,11 @@ import { pipe } from "../utils/FunctionalUtils";
 import { SortOptions } from "./SortOptions";
 import { TakeOptions } from "./TakeOptions";
 import { FilterOptions } from "./FilterOptions";
+import { log } from "../utils/Logging";
 
 export class AnimalRepository implements Repository<Animal> {
   findAll(options: FindOptions): FindAllResult<Animal> {
-    let animals = pipe(data,
+    const animals = pipe(data,
       arrayFilter(options.filter),
       arraySorter(options.sort),
       arraySlicer(options.take)
@@ -26,15 +27,34 @@ export class AnimalRepository implements Repository<Animal> {
 }
 
 function arrayFilter(options: FilterOptions) {
-  const { field, value } = options;
-  return function(arr) {
-    if (field && value) {
-      const predicate = resolveFilterPredicate(AnimalProperties.get(field).type);
-      const filterByProperty = filter(property(field), predicate(value));
-      return arr.filter(filterByProperty);
-    }
-    return arr;
+  const { fields, values } = options;
+  const filterEntries = makeFilterEntries(fields, values);
+  const filters = resolveFilters(filterEntries);
+  return function(arr: Animal[]): Animal[] {
+    return applyFilters(arr, filters);
   };
+}
+function applyFilters(arr, filters) {
+  let filtered = arr;
+  for(let filter of filters) {
+    filtered = filtered.filter(filter);
+  }
+  return filtered;
+}
+function resolveFilters(filterEntries) {
+  return filterEntries.map(entry => {
+    const field = entry[0];
+    const value = entry[1];
+    const predicate = resolveFilterPredicate(AnimalProperties.get(field).type);
+    return filter(property(field), predicate(value));
+  });
+}
+function makeFilterEntries(fields, values) {
+  let entries = [];
+  fields.forEach((field, i) => {
+    entries.push([field, values[i]]);
+  });
+  return entries;
 }
 
 function resolveFilterPredicate(type: string) {
@@ -49,7 +69,7 @@ function resolveFilterPredicate(type: string) {
 
 
 function arraySorter(options: SortOptions) {
-  let { field, descending } = options;
+  const { field, descending } = options;
   return function(arr) {
     if (field) {
       const comparator = resolveComparator(AnimalProperties.get(field).type, descending);

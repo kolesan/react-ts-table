@@ -1,4 +1,4 @@
 export interface FilterOptions {
-  readonly field: string,
-  readonly value: any
+  readonly fields: string[],
+  readonly values: string[]
 }
