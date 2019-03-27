@@ -64,7 +64,11 @@ export default class AnimalTable extends React.Component<AnimalTableProps, Anima
       const { filtering } = tableViewState;
       const { filters } = filtering;
       let newFilters = new Map(filters);
-      newFilters.set(id, value);
+      if (value === "") {
+        newFilters.delete(id);
+      } else {
+        newFilters.set(id, value);
+      }
       const newFiltering = { filters: newFilters };
 
       this.props.filteringChanged(newFiltering);
@@ -102,9 +106,9 @@ export default class AnimalTable extends React.Component<AnimalTableProps, Anima
             <TableRow>
               <TableCell>{this.createFilterInput("name")}</TableCell>
               <TableCell>{this.createFilterInput("origin")}</TableCell>
-              <TableCell></TableCell>
-              <TableCell></TableCell>
-              <TableCell></TableCell>
+              <TableCell />
+              <TableCell />
+              <TableCell />
             </TableRow>
           </TableHead>
           <TableBody>
