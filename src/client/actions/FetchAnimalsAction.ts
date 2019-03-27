@@ -3,7 +3,7 @@ import log from "../utils/Logging";
 import { Filtering, Pagination, Sorting, TableViewState } from "../model/TableViewState";
 import { pipe } from "../utils/FunctionalUtils";
 const { default: axios } = require('axios');
-const { host, port } = CONFIG.server;
+const { host, port, protocol } = CONFIG.server;
 
 export const FETCH_ANIMALS = "Redux action for fetching animal data from the animal api";
 
@@ -17,7 +17,7 @@ export default function fetchAnimals(tableViewState: TableViewState): FetchAnima
   let portString = port ? `:${port}` : ``;
   let queryString = query ? `?${query}` : ``;
 
-  let payload = axios.get(`http://${host}${portString}/animals${queryString}`)
+  let payload = axios.get(`${protocol}://${host}${portString}/animals${queryString}`)
     .catch(err => {
       log("Error retrieving data from animals api:", err);
     });
