@@ -62,7 +62,7 @@ function constructQuery(requestSettings: TableViewState) {
 export default function fetchAnimals(requestSettings: TableViewState): FetchAnimalsAction {
   let query = constructQuery(requestSettings);
 
-  let payload = axios.get(`http://${host}:${port}/animals${query ? `?${query}` : ``}`)
+  let payload = axios.get(`http://${host}${port ? `:${port}` : ``}/animals${query ? `?${query}` : ``}`)
     .catch(err => {
       log("Error retrieving data from animals api:", err);
     });

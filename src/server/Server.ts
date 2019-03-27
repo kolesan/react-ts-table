@@ -7,7 +7,7 @@ import { Animals } from "./services/Animals";
 import { AnimalRouter } from "./routers/AnimalRouter";
 import { parameterValidationErrorHandler, validationErrorHandler } from "./middleware/ErrorHandlers";
 
-const { port } = config.server;
+const port = process.env.PORT || config.server.port;
 const { bundleDir } = config;
 
 log("Loading configuration: ", config);
