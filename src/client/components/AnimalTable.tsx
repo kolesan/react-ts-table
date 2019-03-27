@@ -9,10 +9,10 @@ import AnimalTableRow from "./AnimalTableRow";
 import AnimalsResponse from "../model/AnimalsResponse";
 import AnimalTablePaginationContainer from "../containers/AnimalTablePaginationContainer";
 import Paper from "@material-ui/core/Paper";
-import TableSortLabel from "@material-ui/core/TableSortLabel";
 import log from "../utils/Logging";
 import Input from "@material-ui/core/Input";
 import { TableViewState } from "../model/TableViewState";
+import AnimalTableHeaderContainer from "../containers/AnimalTableHeaderContainer";
 
 interface AnimalTableProps {
   readonly animalsData: AnimalsResponse;
@@ -25,33 +25,6 @@ export default class AnimalTable extends React.Component<AnimalTableProps, Anima
 
   componentDidMount() {
     this.props.fetchAnimals(this.props.tableViewState);
-  }
-
-  createSortHandler(id) {
-    return function(event) {
-      let { tableViewState } = this.props;
-      let { sorting } = tableViewState;
-      let newSorting = {
-        sortBy: id,
-        sortDescending: id !== sorting.sortBy ? false : !sorting.sortDescending
-      };
-
-      this.props.sortingChanged(newSorting);
-    }
-  }
-
-  createSortableLabel(id, label) {
-    let sortHandler = this.createSortHandler(id).bind(this);
-    let { sortBy, sortDescending } = this.props.tableViewState.sorting;
-    return (
-      <TableSortLabel
-        direction={sortDescending ? "desc" : "asc"}
-        active={sortBy === id}
-        hideSortIcon={true}
-        onClick={sortHandler}>
-        {label}
-      </TableSortLabel>
-    );
   }
 
   createFilterHandler(id: string) {
@@ -92,13 +65,7 @@ export default class AnimalTable extends React.Component<AnimalTableProps, Anima
       <Paper>
         <Table>
           <TableHead>
-            <TableRow>
-              <TableCell>{this.createSortableLabel("name", "Name")}</TableCell>
-              <TableCell>{this.createSortableLabel("origin", "Origin")}</TableCell>
-              <TableCell align="right">{this.createSortableLabel("growth", "Population change")}</TableCell>
-              <TableCell>Carnivorous</TableCell>
-              <TableCell align="right">{this.createSortableLabel("height", "Average height (cm.)")}</TableCell>
-            </TableRow>
+            <AnimalTableHeaderContainer />
             <TableRow>
               <TableCell>{this.createFilterInput("name")}</TableCell>
               <TableCell>{this.createFilterInput("origin")}</TableCell>
