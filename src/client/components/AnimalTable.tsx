@@ -17,6 +17,7 @@ import { TableViewState } from "../model/TableViewState";
 interface AnimalTableProps {
   readonly animalsData: AnimalsResponse;
   readonly tableViewState: TableViewState;
+  readonly fetchAnimals: Function;
 }
 interface AnimalTableState {}
 

@@ -1,8 +1,9 @@
 import AnimalsResponse from "../model/AnimalsResponse";
 import log from "../utils/Logging";
-import { TableViewState } from "../model/TableViewState";
+import { Filtering, Pagination, Sorting, TableViewState } from "../model/TableViewState";
 const { default: axios } = require('axios');
 const { host, port } = CONFIG.server;
+
 export const FETCH_ANIMALS = "Redux action for fetching animal data from the animal api";
 
 export interface FetchAnimalsAction {
@@ -31,28 +32,40 @@ function constructQuery(requestSettings: TableViewState) {
     filtering
   } = requestSettings;
 
-  let query = "";
+  return withPaginationParams(withSortingParams(withFilteringParams("", filtering), sorting), pagination);
+}
+
+function withPaginationParams(query: string, pagination: Pagination) {
   if (pagination) {
     let { rowsPerPage, page } = pagination;
     let start = rowsPerPage * page;
     let count = rowsPerPage;
-    query += `start=${start}&count=${count}&`;
+    return query + `start=${start}&count=${count}&`;
   }
+  return query;
+}
+
+function withSortingParams(query: string, sorting: Sorting) {
+  let newQuery = query;
   if (sorting) {
     let { sortBy, sortDescending } = sorting;
     if (sortBy) {
-      query += `sortBy=${sortBy}&`;
+      newQuery += `sortBy=${sortBy}&`;
     }
     if (sortDescending) {
-      query += `sortDesc&`;
+      newQuery += `sortDesc&`;
     }
   }
+  return newQuery;
+}
+
+function withFilteringParams(query: string, filtering: Filtering) {
   if (filtering) {
     let { filters } = filtering;
     let filterBy = [...Object.keys(filters)].join(",");
     let filterValue = [...Object.values(filters)].join(",");
     if (filterBy) {
-      query += `filterBy=${filterBy}&filterValue=${filterValue}&`;
+      return query + `filterBy=${filterBy}&filterValue=${filterValue}&`;
     }
   }
   return query;
